@@ -21,13 +21,13 @@ done
 # If this is a first time installation, then do the  
 # special configuration steps.
 #
+AUTO_ENROLLMENT_ENABLED=${AUTO_ENROLLMENT_ENABLED:-true}
 if [ $FIRST_TIME_INSTALLATION == true ]
 then 
   
   #
   # Support auto-enrollment if configured
   #
-  AUTO_ENROLLMENT_ENABLED=${AUTO_ENROLLMENT_ENABLED:-true}
   if [ $AUTO_ENROLLMENT_ENABLED == true ]
   then
     if [ ! -e ${DATA_PATH}/etc/sslmanager.key ]
@@ -48,21 +48,22 @@ then
   then
     SMTP_ENABLED_DEFAULT=true
   fi
-  
+
   SMTP_ENABLED=${SMTP_ENABLED:-$SMTP_ENABLED_DEFAULT}
+
   if [ $SMTP_ENABLED == true ]
   then
-    if [ -z "$SMTP_RELAY_HOST" ]
+    if [[ -z "$SMTP_RELAY_HOST" || -z "$ALERTS_TO_EMAIL" ]]
     then
-      echo "Unable to configure SMTP, no SMTP_RELAY_HOST defined"
+      echo "Unable to configure SMTP, SMTP_RELAY_HOST or ALERTS_TO_EMAIL not defined"
       SMTP_ENABLED=false
     else
+      
       ALERTS_FROM_EMAIL=${ALERTS_FROM_EMAIL:-ossec_alerts@$HOSTNAME}
       echo "d-i  ossec-hids/email_notification  boolean yes" >> /tmp/debconf.selections
       echo "d-i  ossec-hids/email_from  string $ALERTS_FROM_EMAIL" >> /tmp/debconf.selections
       echo "d-i  ossec-hids/email_to  string $ALERTS_TO_EMAIL" >> /tmp/debconf.selections
       echo "d-i  ossec-hids/smtp_server  string $SMTP_RELAY_HOST" >> /tmp/debconf.selections
-      echo "d-i  ossec-hids/email_notification  boolean no" >> /tmp/debconf.selections
     fi
   fi
   
@@ -76,6 +77,7 @@ then
     debconf-set-selections /tmp/debconf.selections
     dpkg-reconfigure -f noninteractive ossec-hids
     rm /tmp/debconf.selections
+    /var/ossec/bin/ossec-control stop
   fi
 
   #
