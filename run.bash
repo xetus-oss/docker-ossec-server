@@ -104,6 +104,7 @@ then
         > /var/ossec/etc/ossec.conf-new
       mv -f /var/ossec/etc/ossec.conf-new /var/ossec/etc/ossec.conf
       chgrp ossec /var/ossec/etc/ossec.conf
+      /var/ossec/bin/ossec-control enable client-syslog
     fi
   fi
 fi
