@@ -26,7 +26,9 @@ RUN service ossec restart &&\
 ADD data_dirs.env /data_dirs.env
 ADD init.bash /init.bash
 # Sync calls are due to https://github.com/docker/docker/issues/9547
-RUN chmod 755 /init.bash; sync; /init.bash; sync; rm /init.bash
+RUN chmod 755 /init.bash &&\
+  sync && /init.bash &&\
+  sync && rm /init.bash
 
 #
 # Add the bootstrap script

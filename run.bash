@@ -18,10 +18,29 @@ for ossecdir in "${DATA_DIRS[@]}"; do
 done
 
 #
+# Check for the process_list file. If this file is missing, it doesn't
+# count as a first time installation
+#
+touch ${DATA_PATH}/process_list
+chgrp ossec ${DATA_PATH}/process_list
+chmod g+rw ${DATA_PATH}/process_list
+
+#
 # If this is a first time installation, then do the  
 # special configuration steps.
 #
 AUTO_ENROLLMENT_ENABLED=${AUTO_ENROLLMENT_ENABLED:-true}
+
+#
+# Support SMTP, if configured
+#
+SMTP_ENABLED_DEFAULT=false
+if [ -n "$ALERTS_TO_EMAIL" ]
+then
+  SMTP_ENABLED_DEFAULT=true
+fi
+SMTP_ENABLED=${SMTP_ENABLED:-$SMTP_ENABLED_DEFAULT}
+
 if [ $FIRST_TIME_INSTALLATION == true ]
 then 
   
@@ -39,17 +58,6 @@ then
         -subj /CN=${HOSTNAME}/
     fi
   fi
-
-  #
-  # Support SMTP, if configured
-  #
-  SMTP_ENABLED_DEFAULT=false
-  if [ -n "$ALERTS_TO_EMAIL" ]
-  then
-    SMTP_ENABLED_DEFAULT=true
-  fi
-
-  SMTP_ENABLED=${SMTP_ENABLED:-$SMTP_ENABLED_DEFAULT}
 
   if [ $SMTP_ENABLED == true ]
   then

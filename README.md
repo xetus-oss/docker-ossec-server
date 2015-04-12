@@ -1,6 +1,6 @@
 # docker-ossec-server
 
-An ossec-server image with the ability to separate the ossec configuration/data from the container. This image is designed to be as turn-key as possible, supporting out of the box:
+An ossec-server image with the ability to separate the ossec configuration/data from the container. This image is designed to be as turnkey as possible, supporting out of the box:
 
 1. Automatic enrollment for agents, using ossec-authd
 2. Syslog forwarding support for the ossec server messages (requires syslog server)
