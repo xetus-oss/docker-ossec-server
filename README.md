@@ -17,7 +17,7 @@ To get an up and running ossec server that supports auto-enrollment and sends HI
  docker run --name ossec-server\
   -d -p 1514:1514/udp -p 1515:1515\
   -e SYSLOG_FORWADING_ENABLED=true -e SYSLOG_FORWARDING_SERVER_IP=X.X.X.X
-  -v /somepath/ossec_mnt:/var/ossec/data xetus-oss/ossec-server
+  -v /somepath/ossec_mnt:/var/ossec/data xetusoss/ossec-server
 ```
 
 Once the system starts up, you can execute the standard ossec commands using docker. For example, to list active agents.
