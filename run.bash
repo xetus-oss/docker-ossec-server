@@ -26,7 +26,7 @@ chgrp ossec ${DATA_PATH}/process_list
 chmod g+rw ${DATA_PATH}/process_list
 
 #
-# If this is a first time installation, then do the  
+# If this is a first time installation, then do the
 # special configuration steps.
 #
 AUTO_ENROLLMENT_ENABLED=${AUTO_ENROLLMENT_ENABLED:-true}
@@ -42,8 +42,8 @@ fi
 SMTP_ENABLED=${SMTP_ENABLED:-$SMTP_ENABLED_DEFAULT}
 
 if [ $FIRST_TIME_INSTALLATION == true ]
-then 
-  
+then
+
   #
   # Support auto-enrollment if configured
   #
@@ -66,7 +66,7 @@ then
       echo "Unable to configure SMTP, SMTP_RELAY_HOST or ALERTS_TO_EMAIL not defined"
       SMTP_ENABLED=false
     else
-      
+
       ALERTS_FROM_EMAIL=${ALERTS_FROM_EMAIL:-ossec_alerts@$HOSTNAME}
       echo "d-i  ossec-hids/email_notification  boolean yes" >> /tmp/debconf.selections
       echo "d-i  ossec-hids/email_from  string $ALERTS_FROM_EMAIL" >> /tmp/debconf.selections
@@ -74,7 +74,7 @@ then
       echo "d-i  ossec-hids/smtp_server  string $SMTP_RELAY_HOST" >> /tmp/debconf.selections
     fi
   fi
-  
+
   if [ $SMTP_ENABLED == false ]
   then
     echo "d-i  ossec-hids/email_notification  boolean no" >> /tmp/debconf.selections
@@ -145,10 +145,12 @@ LAST_OK_DATE=`date +%s`
 #
 # Watch the service in a while loop, exit if the service exits
 #
-STATUS_CMD="service ossec status | sed '/ossec-maild/d' | grep 'is not running' | test -z"
+# Note that ossec-execd is never expected to run here.
+#
+STATUS_CMD="service ossec status | sed '/ossec-maild/d' | sed '/ossec-execd/d' | grep 'is not running' | test -z"
 if [ $SMTP_ENABLED == true ]
 then
-  STATUS_CMD="/var/ossec/bin/ossec-control status"
+  STATUS_CMD="/var/ossec/bin/ossec-control status | sed '/ossec-execd/d' | grep 'is not running' | test -z"
 fi
 
 while true
@@ -157,7 +159,7 @@ do
   if (( $? != 0 ))
   then
     CUR_TIME=`date +%s`
-    # Allow ossec to not run return an ok status for up to 15 seconds 
+    # Allow ossec to not run return an ok status for up to 15 seconds
     # before worring.
     if (( (CUR_TIME - LAST_OK_DATE) > 15 ))
     then

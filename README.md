@@ -42,6 +42,10 @@ docker exec -ti ossec-server /var/ossec/bin/list_agents -a
 
 ## Known Issues / Warnings
 
-##### A default localhost agent is added
+#### ossec-execd is not enabled
+
+Since this is a docker container, ossec-execd really isn't a great idea anyway. Having a log server, such as graylog, react based on log entries is the recommended approach.
+
+#### A default localhost agent is added
 
 On first launch, the ossec server will not start up properly and bind to port 1514, unless at least one agent to be present in the client.keys file. To avoid that issue, a local agent is setup by default. See [this bug](https://groups.google.com/forum/#!topic/ossec-list/qeC_h3EZCxQ) with OSSEC.
