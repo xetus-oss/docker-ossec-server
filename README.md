@@ -49,3 +49,8 @@ Since this is a docker container, ossec-execd really isn't a great idea anyway. 
 #### A default localhost agent is added
 
 On first launch, the ossec server will not start up properly and bind to port 1514, unless at least one agent to be present in the client.keys file. To avoid that issue, a local agent is setup by default. See [this bug](https://groups.google.com/forum/#!topic/ossec-list/qeC_h3EZCxQ) with OSSEC.
+
+
+## Issues /   Pull Requests
+
+Since this image has become the de-facto standard for OSSEC on docker hub, I wanted to be very clear that we intend to maintain this image with the interest of the community in mind. If you have issues, please file them. If you have made changes you'd like to see included, pull requests are welcome!
