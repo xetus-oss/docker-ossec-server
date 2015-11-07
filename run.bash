@@ -132,6 +132,7 @@ trap "ossec_shutdown; exit" SIGINT SIGTERM
 # Startup the services
 #
 chmod -R g+rw ${DATA_PATH}/logs/ ${DATA_PATH}/stats/ ${DATA_PATH}/queue/ ${DATA_PATH}/etc/client.keys
+chown -R ossec:ossec /var/ossec/
 /var/ossec/bin/ossec-control start
 if [ $AUTO_ENROLLMENT_ENABLED == true ]
 then

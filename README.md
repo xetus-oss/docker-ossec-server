@@ -1,17 +1,17 @@
 # ossec-server
 
-An ossec-server image with the ability to separate the ossec configuration/data from the container. This image is designed to be as turnkey as possible, supporting out of the box:
+An ossec-server image with the ability to separate the ossec configuration/data from the container, meaning easy container replacements. This image is designed to be as turn key as possible, supporting out of the box:
 
 1. Automatic enrollment for agents, using ossec-authd
-2. Syslog forwarding support for the ossec server messages (requires syslog server)
-3. SMTP notifications (requires no-auth SMTP server)
+2. Remote syslog forwarding for the ossec server messages
+3. SMTP notifications _(requires no-auth SMTP server)_
 
 
-The following directories are externalized under `/var/ossec/data` to allow the container to be replaced without configuration or data loss: `logs`, `etc`, `stats`,`rules`, and `queue`. In addition to those directories, the `bin/.process_list` file is symlinked to `process_list` in the data volume.
+The following directories are externalized under `/var/ossec/data` which allow the container to be replaced without configuration or data loss: `logs`, `etc`, `stats`,`rules`, and `queue`. In addition to those directories, the `bin/.process_list` file is symlink'ed to `process_list` in the data volume.
 
 ## Quick Start
 
-To get an up and running ossec server that supports auto-enrollment and sends HIDS notifications a SYSLOG server, use.
+To get an up and running ossec server that supports auto-enrollment and sends HIDS notifications a syslog server, use.
 
 ```
  docker run --name ossec-server -d -p 1514:1514/udp -p 1515:1515\
@@ -49,7 +49,6 @@ Since this is a docker container, ossec-execd really isn't a great idea anyway. 
 #### A default localhost agent is added
 
 On first launch, the ossec server will not start up properly and bind to port 1514, unless at least one agent to be present in the client.keys file. To avoid that issue, a local agent is setup by default. See [this bug](https://groups.google.com/forum/#!topic/ossec-list/qeC_h3EZCxQ) with OSSEC.
-
 
 ## Issues /   Pull Requests
 
