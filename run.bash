@@ -148,10 +148,10 @@ LAST_OK_DATE=`date +%s`
 #
 # Note that ossec-execd is never expected to run here.
 #
-STATUS_CMD="service ossec status | sed '/ossec-maild/d' | sed '/ossec-execd/d' | grep 'is not running' | test -z"
+STATUS_CMD="service ossec status | sed '/ossec-maild/d' | sed '/ossec-execd/d' | grep ' not running' | test -z"
 if [ $SMTP_ENABLED == true ]
 then
-  STATUS_CMD="/var/ossec/bin/ossec-control status | sed '/ossec-execd/d' | grep 'is not running' | test -z"
+  STATUS_CMD="/var/ossec/bin/ossec-control status | sed '/ossec-execd/d' | grep ' not running' | test -z"
 fi
 
 while true
