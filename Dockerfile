@@ -1,4 +1,4 @@
-FROM phusion/baseimage
+FROM phusion/baseimage:0.9.18
 MAINTAINER Terence Kent <tkent@xetus.com>
 
 #
@@ -8,7 +8,7 @@ MAINTAINER Terence Kent <tkent@xetus.com>
 RUN apt-key adv --fetch-keys http://ossec.wazuh.com/repos/apt/conf/ossec-key.gpg.key &&\
   echo "deb http://ossec.wazuh.com/repos/apt/ubuntu trusty main" >> /etc/apt/sources.list &&\
   apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yf install ossec-hids \
-  ossec-hids=2.8.3-3trusty
+  ossec-hids=2.8.3-4trusty
 
 #
 # Add a default agent due to this bug
