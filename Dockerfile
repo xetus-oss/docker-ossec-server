@@ -5,7 +5,8 @@ MAINTAINER Terence Kent <tkent@xetus.com>
 # Follow the server installation parameters specified on the OSSEC website for
 # ubuntu installations
 #
-RUN apt-key adv --fetch-keys http://ossec.wazuh.com/repos/apt/conf/ossec-key.gpg.key &&\
+RUN curl https://ossec.wazuh.com/repos/apt/conf/ossec-key.gpg.key -o ossec-key.gpg.key &&\
+  apt-key add ossec-key.gpg.key && rm -v ossec-key.gpg.key &&\
   echo "deb http://ossec.wazuh.com/repos/apt/ubuntu trusty main" >> /etc/apt/sources.list &&\
   apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yf install expect ossec-hids \
   ossec-hids=2.8.3-4trusty
