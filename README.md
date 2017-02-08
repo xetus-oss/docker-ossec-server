@@ -50,6 +50,18 @@ Since this is a docker container, ossec-execd really isn't a great idea anyway. 
 
 On first launch, the ossec server will not start up properly and bind to port 1514, unless at least one agent to be present in the client.keys file. To avoid that issue, a local agent is setup by default. See [this bug](https://groups.google.com/forum/#!topic/ossec-list/qeC_h3EZCxQ) with OSSEC.
 
+#### Running on OS X using Docker For Mac
+
+The [osxfs integration](https://docs.docker.com/docker-for-mac/osxfs/) used for volume binding on Mac OS X causes an issue resolving symlinks in the container. To work around this issue, just don't bind `/var/ossec/data` to a host directory. Instead, use a regular docker volume and execute a shell in the container to inspect the data. All the typical docker volume management tricks apply, of course.
+
+```
+# To start the container on OS X
+docker run --name ossec-server -d -p 1514:1514/udp -p 1515:1515\
+  -e SYSLOG_FORWADING_ENABLED=true -e SYSLOG_FORWARDING_SERVER_IP=X.X.X.X\
+  -v /var/ossec/data xetusoss/ossec-server
+```
+
+
 ## Issues /   Pull Requests
 
 Since this image has become the de-facto standard for OSSEC on docker hub, I wanted to be very clear that we intend to maintain this image with the interest of the community in mind. If you have issues, please file them. If you have made changes you'd like to see included, pull requests are welcome!
